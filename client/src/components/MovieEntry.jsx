@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Movie = ({movie} = movie) => {
+const MovieEntry = ({movie} = movie) => {
 
   return (
     <div className='movie'>{movie.title}</div>
   );
 };
 
-export default Movie;
+export default MovieEntry;

@@ -1,6 +1,6 @@
 const {useState, useEffect} = React;
 import React from 'react';
-import Movie from './Movie.jsx';
+import MovieList from './MovieList.jsx';
 import Search from './Search.jsx';
 import Add from './Add.jsx';
 
@@ -13,32 +13,35 @@ const data = [
 ];
 
 const App = (props) => {
-  const [movies, setMovies] = useState(data);
+  const [movieData, setMovieData] = useState(data);
+  const [searchData, setSearchData] = useState([]);
 
   const searchMovies = (event) => {
     event.preventDefault();
     let input = document.getElementById('search').value
-    let matchSearch = [];
-    data.forEach((movie) => {
-      if( input !== '' && movie.title.includes(input)) {
-        matchSearch.push(movie);
+    let matches = [];
+    movieData.forEach((movie) => {
+      if (input !== '' && movie.title.includes(input)) {
+        matches.push(movie);
       }
     })
-      if (matchSearch.length > 0) {
-        setMovies(matchSearch);
-      } else {
-        console.log('No Search Matches');
-      }
+    setSearchData(matches);
+    if (matches.length === 0) {
+      alert('No matching videos!');
+    }
   };
 
   const addMovie = (event) => {
     event.preventDefault();
     let input = document.getElementById('add').value;
-    if (input.lenght > 0) {
-      data.push({'title': input});
-      setMovies(data);
+    console.log(input);
+    let tempArray = movieData.slice();
+    if (input.length > 0) {
+      //need to prevent duplicates
+      tempArray.push({'title': input});
+      console.log(movieData);
+      setMovieData(tempArray);
     }
-    console.log('add Movie');
   };
 
   return (
@@ -47,7 +50,7 @@ const App = (props) => {
     <div><Add add={addMovie}/></div>
     <div><Search search={searchMovies}/></div>
     <div>Watched/To Watch</div>
-    <ul className='movies'>{movies.map((movie, index) => <Movie movie={movie} key={index}/>)}</ul>
+    <ul className='movies'><MovieList videos={searchData.length > 0 ? searchData : movieData} /></ul>
   </div>
   );
 };
