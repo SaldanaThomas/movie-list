@@ -1,3 +1,53 @@
 body {
   font-family: sans-serif, arial;
+  background-color: maroon;
+}
+
+.banner {
+  background-color: firebrick;
+  color: gold;
+  border-style: solid;
+  border-color: white;
+  border-width: 5px;
+}
+
+.movie {
+  color: gold;
+  padding: 5px;
+  margin: 5px;
+  border-style: solid;
+  border-color: white;
+  border-width: 3px;
+}
+
+#search {
+  color: gold;
+  background-color: firebrick;
+  border-color: white;
+  border-width: 2px;
+}
+
+#add {
+  color: gold;
+  background-color: firebrick;
+  border-color: white;
+  border-width: 2px;
+}
+
+.searchButton {
+  color: firebrick;
+  background-color: gold;
+  border-color: white;
+  border-width: 2px;
+}
+
+.addButton {
+  color: firebrick;
+  background-color: gold;
+  border-color: white;
+  border-width: 2px;
+}
+
+::placeholder {
+  color: lightyellow;
 }
