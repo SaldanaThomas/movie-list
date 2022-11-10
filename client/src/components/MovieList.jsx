@@ -2,9 +2,8 @@ import React from 'react';
 import MovieEntry from './MovieEntry.jsx';
 
 const MovieList = (movies) => {
-
   return (
-    <div className='movie'>{movies.videos.map((movie, index) => <MovieEntry movie={movie} key={index}/>)}</div>
+    <div className='movieList'>{movies.videos.map((movie, index) => <MovieEntry movie={movie} key={index} toggle={movies.toggle}/>)}</div>
   );
 };
 

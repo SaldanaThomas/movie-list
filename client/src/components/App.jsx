@@ -5,28 +5,32 @@ import Search from './Search.jsx';
 import Add from './Add.jsx';
 
 const data = [
-  {title: 'Mean Girls'},
-  {title: 'Hackers'},
-  {title: 'The Grey'},
-  {title: 'Sunshine'},
-  {title: 'Ex Machina'},
+  {title: 'Mean Girls', watched: false},
+  {title: 'Hackers', watched: false},
+  {title: 'The Grey', watched: false},
+  {title: 'Sunshine', watched: false},
+  {title: 'Ex Machina', watched: false},
 ];
 
-const App = (props) => {
+class App (props) {
   const [movieData, setMovieData] = useState(data);
-  const [searchData, setSearchData] = useState([]);
+  const [filterData, setFilterData] = useState(null);
 
   const searchMovies = (event) => {
     event.preventDefault();
-    let input = document.getElementById('search').value
+    let input = document.getElementById('search').value.toLowerCase();
     let matches = [];
     movieData.forEach((movie) => {
-      if (input !== '' && movie.title.includes(input)) {
+      if (input !== '' && movie.title.toLowerCase().includes(input)) {
         matches.push(movie);
       }
     })
-    setSearchData(matches);
-    if (matches.length === 0) {
+    if (input.length === 0) {
+      setFilterData(movieData);
+    } else {
+      setFilterData(matches);
+    }
+    if (matches.length === 0 && input.length > 0) {
       alert('No matching videos!');
     }
   };
@@ -34,14 +38,31 @@ const App = (props) => {
   const addMovie = (event) => {
     event.preventDefault();
     let input = document.getElementById('add').value;
-    console.log(input);
     let tempArray = movieData.slice();
     if (input.length > 0) {
       //need to prevent duplicates
-      tempArray.push({'title': input});
-      console.log(movieData);
+      tempArray.push({'title': input, 'watched': false});
       setMovieData(tempArray);
+      //add to filter if meets criteria
     }
+  };
+
+  const watchList = (status) => {
+    let tempArray = movieData.filter(movie => movie.watched === status);
+    setFilterData(tempArray);
+  };
+
+  const toggleWatchStatus = (movie) => {
+    let tempArray = movieData;
+    for (var i = 0; i < tempArray.length; i++) {
+      if (tempArray[i].title === movie.title) {
+        console.log(movie.title);
+        console.log( tempArray[i].watched);
+        tempArray[i].watched = !tempArray[i].watched;
+        console.log( tempArray[i].watched);
+      }
+    }
+    setMovieData(tempArray);
   };
 
   return (
@@ -49,8 +70,11 @@ const App = (props) => {
     <div className='banner'><h1><em>Movie List</em></h1></div>
     <div><Add add={addMovie}/></div>
     <div><Search search={searchMovies}/></div>
-    <div>Watched/To Watch</div>
-    <ul className='movies'><MovieList videos={searchData.length > 0 ? searchData : movieData} /></ul>
+    <div>
+      <button className='watched' onClick={() => watchList(true)}> Watched </button>
+      <button className='toWatch' onClick={() => watchList(false)}> To Watch </button>
+    </div>
+    <ul className='movies'><MovieList videos={Array.isArray(filterData) ? filterData : movieData} toggle={toggleWatchStatus}/></ul>
   </div>
   );
 };
