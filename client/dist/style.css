@@ -11,7 +11,7 @@ body {
   border-width: 5px;
 }
 
-.movie {
+.movieEntry {
   color: gold;
   padding: 5px;
   margin: 5px;
@@ -20,18 +20,23 @@ body {
   border-width: 3px;
 }
 
-#search {
+#searchField {
   color: gold;
   background-color: firebrick;
   border-color: white;
   border-width: 2px;
 }
 
-#add {
+#addField {
   color: gold;
   background-color: firebrick;
   border-color: white;
   border-width: 2px;
+}
+
+#currentSearch {
+  color: gold;
+  padding-left: 10px;
 }
 
 .searchButton {
@@ -48,6 +53,14 @@ body {
   border-width: 2px;
 }
 
+.entryWatchButton {
+  color: red;
+  background-color: gold;
+  margin-left: auto;
+  margin-right: 0;
+}
+
 ::placeholder {
   color: lightyellow;
 }
+

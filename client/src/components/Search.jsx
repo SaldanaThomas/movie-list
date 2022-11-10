@@ -4,8 +4,9 @@ const Search = (data) => {
 
   return (
     <form>
-    <input id='search' placeholder='Search...' type='text'></input>
+    <input id='searchField' placeholder='Search...' type='text'></input>
     <button className='searchButton' onClick={data.search}>Go!</button>
+    <a id='currentSearch'></a>
     </form>
 
   );
