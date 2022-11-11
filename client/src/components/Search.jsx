@@ -8,7 +8,6 @@ const Search = (data) => {
     <button className='searchButton' onClick={data.search}>Go!</button>
     <a id='currentSearch'></a>
     </form>
-
   );
 };
 

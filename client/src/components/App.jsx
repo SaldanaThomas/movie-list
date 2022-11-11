@@ -6,11 +6,11 @@ import Add from './Add.jsx';
 const {useState, useEffect} = React;
 
 const data = [
-  {title: 'Mean Girls', year: 2004, runTime: '94', metaScore: '85', imdbRating: '79', watched: false, details: false},
-  {title: 'Hackers', year: '1998', runTime: '92', metaScore: '75', imdbRating: '64', watched: false, details: true},
-  {title: 'The Grey', year: '2011', runTime: '105', metaScore: '90', imdbRating: '86', watched: false, details: true},
-  {title: 'Sunshine', year: '2009', runTime: '124', metaScore: '95', imdbRating: '92', watched: false, details: false},
-  {title: 'Ex Machina', year: '1993', runTime: '110', metaScore: '92', imdbRating: '92', watched: false, details: false},
+  {title: 'Mean Girls', year: 2004, runTime: 94, metaScore: 85, imdbRating: 79, watched: false, details: false},
+  {title: 'Hackers', year: 1998, runTime: 92, metaScore: 75, imdbRating: 64, watched: false, details: false},
+  {title: 'The Grey', year: 2011, runTime: 105, metaScore: 90, imdbRating: 86, watched: false, details: false},
+  {title: 'Sunshine', year: 2009, runTime: 124, metaScore: 95, imdbRating: 92, watched: false, details: false},
+  {title: 'Ex Machina', year: 1993, runTime: 110, metaScore: 92, imdbRating: 92, watched: false, details: false},
 ];
 
 const filters = {watched: false, search: ''};
@@ -19,7 +19,7 @@ const App = (props) => {
   const [movieData, setMovieData] = useState(data);
   const [filterData, setFilterData] = useState(movieData);
 
-  //take user input and add to search criteria
+  //take user input for search criteria
   const searchMovies = (event) => {
     event.preventDefault();
     let input = document.getElementById('searchField').value.toLowerCase();
@@ -32,6 +32,13 @@ const App = (props) => {
     }
   };
 
+  const clearSearch = () => {
+    generateSearchInnerText(true);
+    filters.search = '';
+    let matches = generateFilteredData(movieData);
+    setFilterData(matches);
+  }
+
   //add movie to database
   const addMovie = (event) => {
     event.preventDefault();
@@ -40,7 +47,7 @@ const App = (props) => {
     addField.value = '';
     let tempArray = movieData;
     if (input.length > 0) {
-      tempArray.push({'title': input, 'watched': false});
+      tempArray.push({title: input, year: '?', runTime: '?', metaScore: '?', imdbRating: '?', watched: false, details: false});
       setMovieData(tempArray);
       tempArray = generateFilteredData(tempArray);
       setFilterData(tempArray);
@@ -97,10 +104,10 @@ const App = (props) => {
   }
 
   //display search input on screen and clear search field
-  const generateSearchInnerText = () => {
+  const generateSearchInnerText = (clearSearch) => {
     let text = document.getElementById('searchField').value;
     let search = document.getElementById('currentSearch');
-    if (text === '') {
+    if (clearSearch || text === '') {
       search.innerText = '';
     } else {
       search.innerText = `Currently Searching: "${text}"`;
@@ -110,16 +117,17 @@ const App = (props) => {
   }
 
   return (
-  <div>
-    <div className='banner'><h1><em>Movie List</em></h1></div>
-    <div><Add add={addMovie}/></div>
-    <div><Search search={searchMovies}/></div>
     <div>
-      <button id='watched' onClick={() => watchList(true)}> Watched </button>
-      <button id='toWatch' onClick={() => watchList(false)}> To Watch </button>
+      <div className='banner'><h1><em>Movie List</em></h1></div>
+      <div><Add add={addMovie}/></div>
+      <div><Search search={searchMovies}/></div>
+      <div>
+        <button id='watched' onClick={() => watchList(true)}> Watched </button>
+        <button id='toWatch' onClick={() => watchList(false)}> To Watch </button>
+        {filters.search !== '' && <button onClick={() => clearSearch()}>Clear</button>}
+      </div>
+      <ul className='movies'><MovieList videos={filterData} toggle={toggleStatus}/></ul>
     </div>
-    <ul className='movies'><MovieList videos={filterData} toggle={toggleStatus}/></ul>
-  </div>
   );
 };
 
