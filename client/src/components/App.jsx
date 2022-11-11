@@ -6,11 +6,11 @@ import Add from './Add.jsx';
 const {useState, useEffect} = React;
 
 const data = [
-  {title: 'Mean Girls', watched: false},
-  {title: 'Hackers', watched: false},
-  {title: 'The Grey', watched: false},
-  {title: 'Sunshine', watched: false},
-  {title: 'Ex Machina', watched: false},
+  {title: 'Mean Girls', year: 2004, runTime: '94', metaScore: '85', imdbRating: '79', watched: false, details: false},
+  {title: 'Hackers', year: '1998', runTime: '92', metaScore: '75', imdbRating: '64', watched: false, details: true},
+  {title: 'The Grey', year: '2011', runTime: '105', metaScore: '90', imdbRating: '86', watched: false, details: true},
+  {title: 'Sunshine', year: '2009', runTime: '124', metaScore: '95', imdbRating: '92', watched: false, details: false},
+  {title: 'Ex Machina', year: '1993', runTime: '110', metaScore: '92', imdbRating: '92', watched: false, details: false},
 ];
 
 const filters = {watched: false, search: ''};
@@ -64,12 +64,12 @@ const App = (props) => {
   };
 
   //toggle movie between "To Watch" and "Watched"
-  const toggleWatchStatus = (movie) => {
+  const toggleStatus = (movie, property) => {
     let tempArray = [];
     for (var i = 0; i < movieData.length; i++) {
       tempArray.push(movieData[i]);
       if (tempArray[i].title === movie.title) {
-        tempArray[i].watched = !tempArray[i].watched;
+        tempArray[i][property] = !tempArray[i][property];
       }
     }
     setMovieData(tempArray);
@@ -118,7 +118,7 @@ const App = (props) => {
       <button id='watched' onClick={() => watchList(true)}> Watched </button>
       <button id='toWatch' onClick={() => watchList(false)}> To Watch </button>
     </div>
-    <ul className='movies'><MovieList videos={filterData} toggle={toggleWatchStatus}/></ul>
+    <ul className='movies'><MovieList videos={filterData} toggle={toggleStatus}/></ul>
   </div>
   );
 };

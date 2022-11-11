@@ -39,6 +39,20 @@ body {
   padding-left: 10px;
 }
 
+.movieTitle {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.movieDetails {
+  padding-left: 10px;
+  color: gold;
+  background-color: red;
+  margin-left: -5px;
+  margin-right: -5px;
+  margin-bottom: -5px;
+}
+
 .searchButton {
   color: firebrick;
   background-color: gold;

@@ -1,11 +1,14 @@
 import React from 'react';
+import MovieDetails from './MovieDetails.jsx';
 
-const MovieEntry = (entry) => {
+const MovieEntry = (data) => {
+  console.log(`Movie: ${data.movie.title}, Display Details = ${data.movie.details}`);
   return (
-    <div className='movieEntry'>{entry.movie.title}
-      <div>
-          <button className='entryWatchButton' onClick={ () => entry.toggle(entry.movie)}>{entry.movie.watched === true ? 'Watched' : 'To Watch'}</button>
-      </div>
+    <div className='movieEntry'>
+      <h3 className='movieTitle' onClick={ () => data.toggle(data.movie, 'details')}>
+        {data.movie.title}
+      </h3>
+      <div>{data.movie.details && <MovieDetails data={data}/>}</div>
     </div>
   );
 };
