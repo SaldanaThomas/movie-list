@@ -7,7 +7,7 @@ const MovieDetails = ({data} = data) => {
       <div>Runtime: {data.movie.runTime}</div>
       <div>Metascore: {data.movie.metaScore}</div>
       <div>imdbRating: {data.movie.imdbRating}</div>
-      <button className='entryWatchButton' onClick={ () => data.toggle(data.movie, 'watched')}>
+      <button className='entryWatchButton' onClick={() => data.toggle(data.movie)}>
         {data.movie.watched === true ? 'Watched' : 'To Watch'}
       </button>
     </div>

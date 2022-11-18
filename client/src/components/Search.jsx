@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Search = (data) => {
+const Search = ({search}) => {
 
   return (
     <form>
     <input id='searchField' placeholder='Search...' type='text'></input>
-    <button className='searchButton' onClick={data.search}>Go!</button>
+    <button className='searchButton' onClick={search}>Go!</button>
     <a id='currentSearch'></a>
     </form>
   );

@@ -20,7 +20,7 @@ const App = (props) => {
   const [filterData, setFilterData] = useState(movieData);
 
   //take user input for search criteria
-  const searchMovies = (event) => {
+  const searchMovies = () => {
     event.preventDefault();
     let input = document.getElementById('searchField').value.toLowerCase();
     generateSearchInnerText();
@@ -32,11 +32,10 @@ const App = (props) => {
     }
   };
 
-  const clearSearch = () => {
+  const clearSearch = () => {``
     generateSearchInnerText(true);
     filters.search = '';
-    let matches = generateFilteredData(movieData);
-    setFilterData(matches);
+    setFilterData(generateFilteredData(movieData));
   }
 
   //add movie to database
@@ -71,17 +70,16 @@ const App = (props) => {
   };
 
   //toggle movie between "To Watch" and "Watched"
-  const toggleStatus = (movie, property) => {
+  const toggleStatus = (movie) => {
     let tempArray = [];
     for (var i = 0; i < movieData.length; i++) {
       tempArray.push(movieData[i]);
       if (tempArray[i].title === movie.title) {
-        tempArray[i][property] = !tempArray[i][property];
+        tempArray[i].watched = !tempArray[i].watched;
       }
     }
     setMovieData(tempArray);
-    tempArray = generateFilteredData(tempArray);
-    setFilterData(tempArray);
+    setFilterData(generateFilteredData(tempArray));
   };
 
   //generate array based on current search criteria
