@@ -1,9 +1,20 @@
 const express = require('express');
+const MoviesController = require('./controllers/MoviesControllers');
 const app = express();
-const PORT = 3000 || process.env.PORT;
+
+app.use(express.json());
+
+
+app.get('/movies', (req, res) => {
+
+});
+
+app.post('/movies', (req, res) => {
+
+});
 
 app.use(express.static('client/dist'));
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port: ${PORT}`);
-})
+app.listen(3000, () => {
+  console.log(`Server listening on port: 3000}`);
+});
