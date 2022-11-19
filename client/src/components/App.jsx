@@ -2,22 +2,38 @@ import React from 'react';
 import MovieList from './MovieList.jsx';
 import Search from './Search.jsx';
 import Add from './Add.jsx';
+// import Parse from './Parse.js';
+import axios from 'axios';
 
 const {useState, useEffect} = React;
 
-const data = [
-  {title: 'Mean Girls', year: 2004, runTime: 94, metaScore: 85, imdbRating: 79, watched: false, details: false},
-  {title: 'Hackers', year: 1998, runTime: 92, metaScore: 75, imdbRating: 64, watched: false, details: false},
-  {title: 'The Grey', year: 2011, runTime: 105, metaScore: 90, imdbRating: 86, watched: false, details: false},
-  {title: 'Sunshine', year: 2009, runTime: 124, metaScore: 95, imdbRating: 92, watched: false, details: false},
-  {title: 'Ex Machina', year: 1993, runTime: 110, metaScore: 92, imdbRating: 92, watched: false, details: false},
-];
-
+// const data = [
+//   {title: 'Mean Girls', year: 2004, runTime: 94, metaScore: 85, imdbRating: 79, watched: false, details: false},
+//   {title: 'Hackers', year: 1998, runTime: 92, metaScore: 75, imdbRating: 64, watched: false, details: false},
+//   {title: 'The Grey', year: 2011, runTime: 105, metaScore: 90, imdbRating: 86, watched: false, details: false},
+//   {title: 'Sunshine', year: 2009, runTime: 124, metaScore: 95, imdbRating: 92, watched: false, details: false},
+//   {title: 'Ex Machina', year: 1993, runTime: 110, metaScore: 92, imdbRating: 92, watched: false, details: false},
+// ];
 const filters = {watched: false, search: ''};
 
 const App = () => {
-  const [movieData, setMovieData] = useState(data);
-  const [filterData, setFilterData] = useState(movieData);
+  const [movieData, setMovieData] = useState([]);
+  const [filterData, setFilterData] = useState([]);
+  const [reRender, setReRender] = useState(false);
+
+  const rerender = () => {
+
+  }
+
+  //retrive movies from database upon launch
+  useEffect(() => {
+    axios.get('http://localhost:3000/api/movies')
+    .then((data) => {
+      setMovieData(data.data);
+      setFilterData(data.data);
+    })
+    .catch((err) => console.log(err))
+  }, [reRender]);
 
   // take user input for search criteria
   const searchMovies = () => {
@@ -43,9 +59,10 @@ const App = () => {
     const input = document.getElementById('addField').value;
     if (input) {
       document.getElementById('addField').value = '';
-      movieData.push({title: input, year: '?', runTime: '?', metaScore: '?', imdbRating: '?', watched: false, details: false});
-      setMovieData(movieData);
-      setFilterData(generateFilteredData());
+      const movie = {title: input, year: 0, runTime: 0, metaScore: 0, imdbRating: 0, watched: false, details: false};
+      axios.post('http://localhost:3000/api/movies', movie)
+      .then((data) => setReRender(!reRender))
+      .catch((err) => console.log(err))
     }
   };
 
@@ -74,7 +91,7 @@ const App = () => {
   const generateFilteredData = (filtered = []) => {
     movieData.forEach(movie => {
       if (movie.title.toLowerCase().includes(filters.search)) {
-        if (filters.watched === null || filters.watched === movie.watched) {
+        if (filters.watched === !!movie.watched) {
           filtered.push(movie);
         }
       }

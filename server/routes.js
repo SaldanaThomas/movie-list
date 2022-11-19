@@ -3,6 +3,8 @@ const router = require('express').Router();
 
 router.get('/movies', controller.get);
 
+// router.patch('/movies', controller.patch);
+
 router.post('/movies', controller.post);
 
 module.exports = router;

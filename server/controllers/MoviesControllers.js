@@ -10,11 +10,19 @@ const get = (req, res) => {
   });
 };
 
+// const patch = (req, res) => {
+//   MoviesModels.create(req.body, (err, movies) => {
+//     if (err) {
+//       res.status(404).send();
+//     } else {
+//       res.status(201).send();
+//     }
+//   });
+// };
+
 const post = (req, res) => {
-  console.log(req.body);
   MoviesModels.create(req.body, (err, movies) => {
     if (err) {
-      console.log(err);
       res.status(404).send();
     } else {
       res.status(201).send();
