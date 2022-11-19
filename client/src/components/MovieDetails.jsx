@@ -1,14 +1,14 @@
 import React from 'react';
 
-const MovieDetails = ({data} = data) => {
+const MovieDetails = ({movie, toggle}) => {
   return (
     <div className='movieDetails'>
-      <div>Year: {data.movie.year}</div>
-      <div>Runtime: {data.movie.runTime}</div>
-      <div>Metascore: {data.movie.metaScore}</div>
-      <div>imdbRating: {data.movie.imdbRating}</div>
-      <button className='entryWatchButton' onClick={() => data.toggle(data.movie)}>
-        {data.movie.watched === true ? 'Watched' : 'To Watch'}
+      <div>Year: {movie.year}</div>
+      <div>Runtime: {movie.runTime}</div>
+      <div>Metascore: {movie.metaScore}</div>
+      <div>imdbRating: {movie.imdbRating}</div>
+      <button className='movieWatchButton' onClick={() => toggle(movie, 'watched')}>
+        {movie.watched === true ? 'Watched' : 'To Watch'}
       </button>
     </div>
   );

@@ -1,13 +1,13 @@
 import React from 'react';
 import MovieDetails from './MovieDetails.jsx';
 
-const MovieEntry = (data) => {
+const MovieEntry = ({movie, toggle}) => {
   return (
     <div className='movieEntry'>
-      <h3 className='movieTitle' onClick={ () => data.toggle(data.movie, 'details')}>
-        {data.movie.title}
+      <h3 className='movieTitle' onClick={ () => toggle(movie, 'details')}>
+        {movie.title}
       </h3>
-      <div>{data.movie.details && <MovieDetails data={data}/>}</div>
+      <div>{movie.details && <MovieDetails movie={movie} toggle={toggle}/>}</div>
     </div>
   );
 };

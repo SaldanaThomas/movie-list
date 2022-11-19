@@ -15,103 +15,79 @@ const data = [
 
 const filters = {watched: false, search: ''};
 
-const App = (props) => {
+const App = () => {
   const [movieData, setMovieData] = useState(data);
   const [filterData, setFilterData] = useState(movieData);
 
-  //take user input for search criteria
+  // take user input for search criteria
   const searchMovies = () => {
     event.preventDefault();
-    let input = document.getElementById('searchField').value.toLowerCase();
-    generateSearchInnerText();
-    filters.search = input;
-    let matches = generateFilteredData(movieData);
-    setFilterData(matches);
-    if (matches.length === 0) {
+    filters.search = document.getElementById('searchField').value.toLowerCase();
+    displaySearchCriteria();
+    setFilterData(generateFilteredData());
+    if (!filterData.length) {
       console.log('No matching videos!');
     }
   };
 
-  const clearSearch = () => {``
-    generateSearchInnerText(true);
+  //reset search criteria
+  const clearSearch = () => {
+    displaySearchCriteria(false);
     filters.search = '';
-    setFilterData(generateFilteredData(movieData));
+    setFilterData(generateFilteredData());
   }
 
   //add movie to database
-  const addMovie = (event) => {
+  const addMovie = () => {
     event.preventDefault();
-    let input = document.getElementById('addField').value;
-    let addField = document.getElementById('addField');
-    addField.value = '';
-    let tempArray = movieData;
-    if (input.length > 0) {
-      tempArray.push({title: input, year: '?', runTime: '?', metaScore: '?', imdbRating: '?', watched: false, details: false});
-      setMovieData(tempArray);
-      tempArray = generateFilteredData(tempArray);
-      setFilterData(tempArray);
+    const input = document.getElementById('addField').value;
+    if (input) {
+      document.getElementById('addField').value = '';
+      movieData.push({title: input, year: '?', runTime: '?', metaScore: '?', imdbRating: '?', watched: false, details: false});
+      setMovieData(movieData);
+      setFilterData(generateFilteredData());
     }
   };
 
-  //display "To Watch" or "Watched" movies
+  //view "To Watch" or "Watched" movies
   const watchList = (status) => {
     let watched = document.getElementById('watched');
     let toWatch = document.getElementById('toWatch');
-    if (status) {
-      watched.style.backgroundColor = 'gold';
-      toWatch.style.backgroundColor = 'white';
-    } else {
-      watched.style.backgroundColor = 'white';
-      toWatch.style.backgroundColor = 'gold';
-    }
+    watched.style.backgroundColor = status ? 'gold' : 'white';
+    toWatch.style.backgroundColor = status ? 'white' : 'gold';
     filters.watched = status;
-    let tempArray = generateFilteredData(movieData);
-    setFilterData(tempArray);
+    setFilterData(generateFilteredData());
   };
 
-  //toggle movie between "To Watch" and "Watched"
-  const toggleStatus = (movie) => {
-    let tempArray = [];
-    for (var i = 0; i < movieData.length; i++) {
-      tempArray.push(movieData[i]);
-      if (tempArray[i].title === movie.title) {
-        tempArray[i].watched = !tempArray[i].watched;
+  //toggle movie property between true and false used for "watched/details"
+  const toggleStatus = (clickedMovie, property) => {
+    movieData.forEach(movie => {
+      if (clickedMovie.title === movie.title) {
+        movie[property] = !movie[property];
       }
-    }
-    setMovieData(tempArray);
-    setFilterData(generateFilteredData(tempArray));
+    })
+    setMovieData(movieData);
+    setFilterData(generateFilteredData());
   };
 
-  //generate array based on current search criteria
-  const generateFilteredData = (array) => {
-    let filteredArray = [];
-    for (let i = 0; i < array.length; i++) {
-      if (filters.watched !== null) {
-        if (array[i].watched === filters.watched) {
-          if (array[i].title.toLowerCase().includes(filters.search)) {
-            filteredArray.push(array[i]);
-          }
-        }
-      } else {
-        if (array[i].title.toLowerCase().includes(filters.search)) {
-          filteredArray.push(array[i]);
+  //generate new array based on current search criteria
+  const generateFilteredData = (filtered = []) => {
+    movieData.forEach(movie => {
+      if (movie.title.toLowerCase().includes(filters.search)) {
+        if (filters.watched === null || filters.watched === movie.watched) {
+          filtered.push(movie);
         }
       }
-    }
-    return filteredArray;
+    })
+    return filtered;
   }
 
   //display search input on screen and clear search field
-  const generateSearchInnerText = (clearSearch) => {
+  const displaySearchCriteria = (showSearch) => {
     let text = document.getElementById('searchField').value;
     let search = document.getElementById('currentSearch');
-    if (clearSearch || text === '') {
-      search.innerText = '';
-    } else {
-      search.innerText = `Currently Searching: "${text}"`;
-    }
-    let searchField = document.getElementById('searchField');
-    searchField.value = '';
+    search.innerText = showSearch || text ? `Currently Searching: "${text}"` : '';
+    document.getElementById('searchField').value = '';
   }
 
   return (
@@ -124,7 +100,7 @@ const App = (props) => {
         <button id='toWatch' onClick={() => watchList(false)}> To Watch </button>
         {filters.search !== '' && <button onClick={() => clearSearch()}>Clear</button>}
       </div>
-      <ul className='movies'><MovieList videos={filterData} toggle={toggleStatus}/></ul>
+      <ul className='movies'><MovieList movies={filterData} toggle={toggleStatus}/></ul>
     </div>
   );
 };

@@ -67,7 +67,7 @@ body {
   border-width: 2px;
 }
 
-.entryWatchButton {
+.movieWatchButton {
   color: red;
   background-color: gold;
   margin-left: auto;
@@ -77,4 +77,3 @@ body {
 ::placeholder {
   color: lightyellow;
 }
-
