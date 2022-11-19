@@ -1,18 +1,11 @@
 const express = require('express');
-const MoviesController = require('./controllers/MoviesControllers');
 const app = express();
 
 app.use(express.json());
 
+const router = require('./routes.js');
 
-app.get('/movies', (req, res) => {
-
-});
-
-app.post('/movies', (req, res) => {
-
-});
-
+app.use('/api', router)
 app.use(express.static('client/dist'));
 
 app.listen(3000, () => {

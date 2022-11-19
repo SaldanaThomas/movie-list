@@ -1,26 +1,28 @@
-const MoviesModels = require('../models/MoviesModel');
+const MoviesModels = require('../models/MoviesModels');
 
 const get = (req, res) => {
-  MoviesModels.getAll((err, movies) => ) {
+  MoviesModels.getAll((err, movies) => {
     if (err) {
       res.status(404).send();
     } else {
       res.status(200).send(movies);
     }
-  }
+  });
 };
 
 const post = (req, res) => {
-  MoviesModels.create((err, movies) => {
+  console.log(req.body);
+  MoviesModels.create(req.body, (err, movies) => {
     if (err) {
+      console.log(err);
       res.status(404).send();
     } else {
       res.status(201).send();
     }
-  })
+  });
 };
 
-exports = {
+module.exports = {
   get,
   post
 };
