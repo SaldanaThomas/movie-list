@@ -10,15 +10,15 @@ const get = (req, res) => {
   });
 };
 
-// const patch = (req, res) => {
-//   MoviesModels.create(req.body, (err, movies) => {
-//     if (err) {
-//       res.status(404).send();
-//     } else {
-//       res.status(201).send();
-//     }
-//   });
-// };
+const patch = (req, res) => {
+  MoviesModels.update(req.body, (err, movies) => {
+    if (err) {
+      res.status(404).send();
+    } else {
+      res.status(200).send();
+    }
+  });
+};
 
 const post = (req, res) => {
   MoviesModels.create(req.body, (err, movies) => {
@@ -32,5 +32,6 @@ const post = (req, res) => {
 
 module.exports = {
   get,
+  patch,
   post
 };

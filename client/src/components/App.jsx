@@ -6,7 +6,6 @@ import Add from './Add.jsx';
 import axios from 'axios';
 
 const {useState, useEffect} = React;
-
 // const data = [
 //   {title: 'Mean Girls', year: 2004, runTime: 94, metaScore: 85, imdbRating: 79, watched: false, details: false},
 //   {title: 'Hackers', year: 1998, runTime: 92, metaScore: 75, imdbRating: 64, watched: false, details: false},
@@ -20,10 +19,6 @@ const App = () => {
   const [movieData, setMovieData] = useState([]);
   const [filterData, setFilterData] = useState([]);
   const [reRender, setReRender] = useState(false);
-
-  const rerender = () => {
-
-  }
 
   //retrive movies from database upon launch
   useEffect(() => {
@@ -77,14 +72,11 @@ const App = () => {
   };
 
   //toggle movie property between true and false used for "watched/details"
-  const toggleStatus = (clickedMovie, property) => {
-    movieData.forEach(movie => {
-      if (clickedMovie.title === movie.title) {
-        movie[property] = !movie[property];
-      }
-    })
-    setMovieData(movieData);
-    setFilterData(generateFilteredData());
+  const toggleStatus = (movie, property) => {
+    movie.data = property;
+    axios.patch('http://localhost:3000/api/movies', movie)
+      .then((data) => setReRender(!reRender))
+      .catch((err) => console.log(err));
   };
 
   //generate new array based on current search criteria

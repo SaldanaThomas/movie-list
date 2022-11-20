@@ -6,17 +6,15 @@ const getAll = (callback) => {
   });
 };
 
-// const create = ({title, year, runTime, imdbRating, watched, details}, callback) => {
-//   db.query(`UPDATE movies (title, year, runTime, metaScore, watched, details) VALUES ("${title}", "${year}", "${runTime}", "${metaScore}", "${watched}", "${detailstitle}", "${details}")`, (err, data) => {
-//   callback(err, data);
-//   });
-// };
+const update = (movie, callback) => {
+  const property = movie.data
+  movie[property] = !movie[property];
+  db.query(`UPDATE movies SET ${property}=${movie[property]} WHERE id=${movie.id}`, (err, data) => {
+    callback(err, data);
+  });
+};
 
 const create = ({title, year, runTime, metaScore, imdbRating, watched, details}, callback) => {
-  console.log('title: ', title, 'year: ', year, 'run time: ', runTime);
-  console.log('meta score: ', metaScore, 'imdb rating: ', imdbRating);
-  console.log('watched: ', watched, 'details: ', details);
-
   db.query(`INSERT INTO movies (title, year, runTime, metaScore, imdbRating, watched, details) VALUES ("${title}", ${year}, ${runTime}, ${metaScore}, ${imdbRating}, ${watched}, ${details})`, (err, data) => {
   callback(err, data);
   });
@@ -24,5 +22,6 @@ const create = ({title, year, runTime, metaScore, imdbRating, watched, details},
 
 module.exports = {
   getAll,
+  update,
   create
 };
