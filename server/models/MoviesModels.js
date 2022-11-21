@@ -8,7 +8,9 @@ const getAll = (callback) => {
 
 const update = (movie, callback) => {
   const property = movie.data
+  // console.log(`MODELS -> Movie: ${movie.title} ${property}: ${movie[property]}`);
   movie[property] = !movie[property];
+  // console.log(`MODELS OPPOSITE -> Movie: ${movie.title} ${property}: ${movie[property]}`);
   db.query(`UPDATE movies SET ${property}=${movie[property]} WHERE id=${movie.id}`, (err, data) => {
     callback(err, data);
   });
