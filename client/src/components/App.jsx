@@ -2,16 +2,14 @@ import React from 'react';
 import MovieList from './MovieList.jsx';
 import Search from './Search.jsx';
 import Add from './Add.jsx';
-// import Parse from './Parse.js';
 import axios from 'axios';
-
 const {useState, useEffect} = React;
-const filters = {watched: false, search: ''};
 
 const App = () => {
   const [movieData, setMovieData] = useState([]);
   const [filterData, setFilterData] = useState([]);
-  const [search, setSearch] = useState([]);
+  const [search, setSearch] = useState('');
+  const [watched, setWatched] = useState(false)
   const [reRender, setReRender] = useState(false);
 
   //retrive movies from database upon launch
@@ -23,20 +21,17 @@ const App = () => {
   }, [reRender, filterData]);
 
   // take user input for search criteria
-  const searchMovies = (event) => {
+  const searchMovies = () => {
     event.preventDefault();
-    filters.search = document.getElementById('searchField').value.toLowerCase();
+    setSearch(document.getElementById('searchField').value.toLowerCase());
     displaySearchCriteria();
     setFilterData(generateFilteredData());
-    if (!filterData.length) {
-      console.log('No matching videos!');
-    }
   };
 
   //reset search criteria
   const clearSearch = () => {
     displaySearchCriteria(false);
-    filters.search = '';
+    setSearch('');
     setFilterData(generateFilteredData());
   }
 
@@ -59,7 +54,7 @@ const App = () => {
     let toWatch = document.getElementById('toWatch');
     watched.style.backgroundColor = status ? 'gold' : 'white';
     toWatch.style.backgroundColor = status ? 'white' : 'gold';
-    filters.watched = status;
+    setWatched(status);
     setFilterData(generateFilteredData());
   };
 
@@ -76,8 +71,8 @@ const App = () => {
   //generate new array based on current search criteria
   const generateFilteredData = (filtered = []) => {
     movieData.forEach(movie => {
-      if (movie.title.toLowerCase().includes(filters.search)) {
-        if (filters.watched === !!movie.watched) {
+      if (movie.title.toLowerCase().includes(search)) {
+        if (watched === !!movie.watched) {
           filtered.push(movie);
         }
       }
@@ -90,7 +85,7 @@ const App = () => {
     let text = document.getElementById('searchField').value;
     let search = document.getElementById('currentSearch');
     search.innerText = showSearch || text ? `Currently Searching: "${text}"` : '';
-    // document.getElementById('searchField').value = '';
+    document.getElementById('searchField').value = '';
   }
 
   return (
@@ -101,7 +96,7 @@ const App = () => {
       <div>
         <button id='watched' onClick={() => watchList(true)}> Watched </button>
         <button id='toWatch' onClick={() => watchList(false)}> To Watch </button>
-        {filters.search !== '' && <button onClick={() => clearSearch()}>Clear</button>}
+        {search !== '' && <button onClick={() => clearSearch()}>Clear</button>}
       </div>
       <ul className='movies'><MovieList movies={filterData} toggle={toggleStatus}/></ul>
     </div>

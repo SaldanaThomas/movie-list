@@ -4,7 +4,7 @@ const Search = ({search}) => {
 
   return (
     <form>
-    <input id='searchField' placeholder='Search...' type='text' onChange={search}></input>
+    <input id='searchField' placeholder='Search...' type='text'></input>
     <button className='searchButton' onClick={search}>Go!</button>
     <a id='currentSearch'></a>
     </form>

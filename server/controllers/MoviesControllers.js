@@ -1,37 +1,21 @@
 const MoviesModels = require('../models/MoviesModels');
 
-const get = (req, res) => {
-  MoviesModels.getAll((err, movies) => {
-    if (err) {
-      res.status(404).send();
-    } else {
-      res.status(200).send(movies);
-    }
-  });
-};
-
-const patch = (req, res) => {
-  MoviesModels.update(req.body, (err, movies) => {
-    if (err) {
-      res.status(404).send();
-    } else {
-      res.status(200).send();
-    }
-  });
-};
-
-const post = (req, res) => {
-  MoviesModels.create(req.body, (err, movies) => {
-    if (err) {
-      res.status(404).send();
-    } else {
-      res.status(201).send();
-    }
-  });
-};
-
 module.exports = {
-  get,
-  patch,
-  post
+  get: (req, res) => {
+    MoviesModels.getAll((err, movies) => {
+      err ? res.status(404).send() : res.status(200).send(movies);
+    });
+  },
+
+  patch: (req, res) => {
+    MoviesModels.update(req.body, (err, movies) => {
+      err ? res.status(404).send() : res.status(200).send();
+    });
+  },
+
+  post: (req, res) => {
+    MoviesModels.create(req.body, (err, movies) => {
+      err ? res.status(404).send() : res.status(201).send();
+    });
+  },
 };
